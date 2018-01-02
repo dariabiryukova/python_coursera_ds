@@ -1,0 +1,46 @@
+import csv
+
+# presicion 2
+
+with open("mpg.csv") as csvfile:
+    cars = list(csv.DictReader(csvfile))
+
+print(cars[:3])
+print(len(cars))
+print(cars[0].keys())
+print(sum(float(d['cty']) for d in cars)/len(cars))
+print(sum(float(d['hwy']) for d in cars)/len(cars))
+cylinders =  set(d['cyl'] for d in cars)
+print(cylinders)
+
+
+CylMgpByCyl = []
+for c in cylinders:
+    summpg = 0
+    cylcount = 0
+    for d in cars:
+        if d['cyl'] == c:
+            summpg += float(d['cty'])
+            cylcount += 1
+    CylMgpByCyl.append((c, summpg/cylcount))
+
+print(CylMgpByCyl)
+CylMgpByCyl.sort(key =lambda x: x[0])
+print('sorted! ', CylMgpByCyl)
+
+vehicleclass = set(d['class'] for d in cars)
+print(vehicleclass)
+
+HwyMpgByClass = []
+
+for t in vehicleclass:
+    sumhwy = 0
+    vehiclecount = 0
+    for d in cars:
+        if d['class'] == t:
+            sumhwy += float(d['hwy'])
+            vehiclecount += 1
+    HwyMpgByClass.append((t, sumhwy/vehiclecount))
+
+HwyMpgByClass.sort(key = lambda x: x[1])
+print(HwyMpgByClass)
